@@ -1,8 +1,8 @@
 # Инструкция по запуску Django-приложения с PostgreSQL и pgAdmin
 ## Требования:
 
-* Docker
-* Docker Compose
+* [Docker](https://www.docker.com/products/docker-desktop/ "Скачать")
+* Docker Compose (встроен в Docker)
 ## Шаги по запуску:
 
 * Запустите Docker Compose:
