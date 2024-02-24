@@ -1,0 +1,89 @@
+# deployment.yaml
+
+# PostgreSQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresql
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: postgres:latest
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_DB
+            value: shop_db
+          - name: POSTGRES_USER
+            value: default_user
+          - name: POSTGRES_PASSWORD
+            value: oL1p_rXdEK
+---
+# PostgreSQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+spec:
+  selector:
+    app: postgresql
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+# Django Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: django-app
+  template:
+    metadata:
+      labels:
+        app: django-app
+    spec:
+      containers:
+      - name: django-app
+        image: your-django-image:tag
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DJANGO_SETTINGS_MODULE
+          value: "your_project.settings.production"
+        - name: POSTGRES_DB
+          value: shop_db
+        - name: POSTGRES_USER
+          value: default_user
+        - name: POSTGRES_PASSWORD
+          value: oL1p_rXdEK
+        - name: DATABASE_HOST
+          value: postgresql
+        - name: DATABASE_PORT
+          value: "5432"
+---
+# Django Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: django-service
+spec:
+  selector:
+    app: django-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

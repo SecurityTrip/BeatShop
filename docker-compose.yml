@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  postgresql:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: shop_db
+      POSTGRES_USER: default_user
+      POSTGRES_PASSWORD: oL1p_rXdEK
+    volumes:
+      - pg_shop_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: your_email@example.com
+      PGADMIN_DEFAULT_PASSWORD: ySLvc-X5xY
+    depends_on:
+      - postgresql
+
+  django-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    environment:
+      #DJANGO_SETTINGS_MODULE: "your_project.settings.production"
+      DATABASE_NAME: shop_db
+      DATABASE_USER: default_user
+      DATABASE_PASSWORD: oL1p_rXdEK
+      DATABASE_HOST: postgresql
+      DATABASE_PORT: 5432
+    depends_on:
+      - postgresql
+      - pgadmin
+
+volumes:
+  pg_shop_data:
