@@ -9,6 +9,13 @@
 ```
 docker-compose up --build
 ```
+* Для MacOS
+```
+sudo chown -R [user] ~/.docker
+```
+```
+docker-compose up --build
+```
 Это запустит все сервисы, включая PostgreSQL, pgAdmin и Django-приложение. Флаг --build гарантирует пересборку Docker-образов перед запуском.
 
 * Откройте pgAdmin в браузере:
