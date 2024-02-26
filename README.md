@@ -14,4 +14,7 @@ docker-compose up --build
 * Откройте pgAdmin в браузере:
 Перейдите по адресу <http://localhost:5050> в браузере и войдите с учетными данными по умолчанию (заданными в docker-compose.yml).
 
-
+* Если все плохо
+```
+docker system prune -a
+```
