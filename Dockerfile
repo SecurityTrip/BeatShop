@@ -5,21 +5,14 @@ FROM python:3.12.2
 ENV PYTHONUNBUFFERED 1
 
 # Создаем и устанавливаем рабочую директорию внутри контейнера
-WORKDIR /app
+WORKDIR /code
 
 # Копируем файлы зависимостей и устанавливаем их
-COPY requirements.txt /app/
+COPY requirements.txt /code/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копируем файлы приложения в контейнер
-COPY . /app/
+COPY . /code/
 
 # Экспортируем порт, который будет использоваться Django
 EXPOSE 8000
-
-# Команда для запуска Django-приложения
- CMD ["chmod a+x ./run_app"]
- CMD ["./run_app"]
-#CMD ["python", "manage.py", "makemigrations"]
-#CMD ["python", "manage.py", "migrate"]
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -20,11 +20,33 @@ services:
     depends_on:
       - postgresql
 
+  migration:
+    image: django
+    command: python manage.py migrate --noinput
+    volumes:
+      - .:/code
+    depends_on:
+      - postgresql
+      - pgadmin
+      - static
+
+  static:
+    image: django
+    command: python manage.py collectstatic --noinput
+    volumes:
+      - .:/code
+    depends_on:
+      - postgresql
+      - pgadmin
+
   django-app:
+    image: django
     build:
       context: .
       dockerfile: Dockerfile
-    #command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     environment:
@@ -37,6 +59,7 @@ services:
     depends_on:
       - postgresql
       - pgadmin
+      - migration
 
 volumes:
   pg_shop_data:
