@@ -18,5 +18,8 @@ COPY . /app/
 EXPOSE 8000
 
 # Команда для запуска Django-приложения
-CMD ["chmod +x ./run_app"]
-CMD ["./run_app"]
+# CMD ["chmod a+x ./run_app"]
+# CMD ["./run_app"]
+CMD ["python", "manage.py", "makemigrations"]
+CMD ["python", "manage.py", "migrate"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
